@@ -1,0 +1,48 @@
+<section id="events-filter">
+	<div clas="container">
+		<div class="row">
+			<div class="col-md-4">
+				<label>Events from:</label>
+				<div id="datepicker" class="input-group date">
+					<input type="text" placeholder="Date">
+						<span class="input-group-addon">
+						<i class="glyphicon glyphicon-th"></i>
+					</span>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<label>Search:</label>
+				<input v-model="searchTerm" @focus="resetPageNumber()" type="text" placeholder="Search" />
+			</div>
+			<div class="col-md-2 col-md-offset-2">
+				<p><a href="#" @click.prevent="getEvents()" class="btn-theme">Search</a></p>
+			</div>
+		</div>
+	</div>
+</section>
+<section id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div v-for="event in events">
+					<article class="events">
+						<div class="events__date">
+							<div class="col-md-1 date-tile">
+								<span>{{getDay(event.start_date)}}</span>
+								<span>{{event.start_date_details.day}}</span>
+							</div>
+							<div class="col-md-11">
+								<h3>{{ event.title }}</h3>
+								<strong v-if="events.allday == false">{{ event.start_date_details.day }}/{{ event.start_date_details.month }}/{{ event.start_date_details.year }}, {{ event.start_date_details.hour }}:{{ event.start_date_details.minutes }} - {{ event.end_date_details.hour }}:{{ event.end_date_details.minutes }}</strong>
+								<strong v-else>{{ event.start_date_details.day }}/{{ event.start_date_details.month }}/{{ event.start_date_details.year }}</strong>
+							</div>
+						</div>
+						<div v-html="theExcerpt(event.description)"></div>
+						<p><a :href="event.url" class="btn-theme">View event.</a></p>
+					</article>
+				</div>
+				<p><a v-if="!isLastPage" href="#" @click.prevent="getEvents()" class="btn-theme">Load more events.</a></p>
+			</div>
+		</div>
+	</div>
+</section>
